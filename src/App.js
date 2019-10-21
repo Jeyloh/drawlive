@@ -11,6 +11,8 @@ import { listCanvass } from './graphql/queries'
 import { deleteCanvas } from "./graphql/mutations";
 import LiveStream from "./LiveStream";
 import { ReactComponent as QRSvg } from "./drawliveQR.svg";
+
+
 const App = () => {
 
   const [displayStream, setDisplayStream] = React.useState(true);
@@ -139,10 +141,7 @@ const App = () => {
     // Create the canvas. If canvas is already created, retrieve the data & draw previous canvas
     API.graphql(graphqlOperation(listCanvass, { limit: 50 }))
       .then(({ data }) => {
-        const parsedCanvasList = data.listCanvass.items.forEach(dbCanvas => {
-          const parsed = parseAndReturnCanvas(dbCanvas);
-          if (parsed.data) return parsed;
-        })
+        const parsedCanvasList = data.listCanvass.items.filter(dbCanvas => parseAndReturnCanvas(dbCanvas).data)
         setCanvasQueue(parsedCanvasList)
       })
       .catch(err => {

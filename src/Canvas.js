@@ -121,9 +121,9 @@ class Canvas extends Component {
          
              <div className="tool-wrapper">
              <SliderPicker 
-          onChangeComplete={ this.handleColorChangeComplete }
-          color={this.state.brushColor}
-          />
+                onChangeComplete={ this.handleColorChangeComplete }
+                color={this.state.brushColor}
+              />
           <div>
             <label >Brush thickness ({this.state.brushRadius}):</label>
             <button disabled={this.state.brushRadius < 3 } onClick={this.decreaseThickness}>-</button>

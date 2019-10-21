@@ -369,9 +369,9 @@ export default class extends PureComponent {
     this.ctx.temp.lineCap = "round";
     this.ctx.temp.strokeStyle = brushColor;
 
-    if (this.props.disabled) {
-      this.ctx.temp.shadowBlur = 20;
-    }
+    // if (this.props.disabled) {
+    //   this.ctx.temp.shadowBlur = 20;
+    // }
 
     this.ctx.temp.clearRect(
       0,
