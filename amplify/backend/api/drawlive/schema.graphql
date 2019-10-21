@@ -1,7 +1,4 @@
-type Canvas @model ( subscriptions: {
-     level: public 
-  }
-) {
+type Canvas @model(subscriptions: { level: public }) {
   id: ID!
   clientId: String!
   data: String!

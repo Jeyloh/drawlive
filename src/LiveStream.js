@@ -23,8 +23,7 @@ const LiveStream = ({incrementIndex, canvasQueue, index}) => {
           incrementIndex();
         }
       }
-      let i = 0;
-    
+
       React.useEffect(() => {
         if (canvasRef.current) {
     
@@ -48,7 +47,7 @@ const LiveStream = ({incrementIndex, canvasQueue, index}) => {
         const queue = [
           ...canvasQueue
         ]
-        const data = queue[index];
+        const {data} = queue[index];
         if (!data || !data.lines || !data.lines[0].points.length) {
           console.log("No data in ");
           return incrementIndex();
@@ -56,11 +55,10 @@ const LiveStream = ({incrementIndex, canvasQueue, index}) => {
     
         const lines = data.lines;
     
-        i += i + 1;
         const CanvasDrawElem = React.createElement(
           CanvasDraw,
           {
-            key: `index-${index}-${i}`,
+            key: `index-${index}`,
             ref: canvasRef,
             className: "stream-canvas",
             hideGrid: true,

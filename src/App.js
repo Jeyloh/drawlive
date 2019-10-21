@@ -14,7 +14,6 @@ import { ReactComponent as QRSvg } from "./drawliveQR.svg";
 const App = () => {
 
   const [displayStream, setDisplayStream] = React.useState(true);
-  const [rawDBdata, setRawDBdata] = React.useState([]);
   const [canvasQueue, setCanvasQueue] = React.useState([]);
   const [index, setIndex] = React.useState(0);
   const [currentLines, setCurrentLines] = React.useState(null);
@@ -114,7 +113,7 @@ const App = () => {
 
 
   const deleteAll = () => {
-    rawDBdata.forEach(dbData => {
+    canvasQueue.forEach(dbData => {
       API.graphql(graphqlOperation(deleteCanvas, { input: { id: dbData.id } })).then(() => {
         console.log("All drawings deleted");
       }).catch(err => {
