@@ -165,7 +165,7 @@ const App = () => {
   return (
     <div className="app-wrapper">
       {displayStream && <div className="buttonbar left">
-        {canvasQueue.length} drawings in queue
+        Display #{index + 1} of {canvasQueue.length} drawings in queue
           </div>
       }
 
