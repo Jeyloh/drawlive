@@ -84,7 +84,6 @@ class Canvas extends Component {
     // Save updated canvas in the database
     API.graphql(graphqlOperation(createCanvas, { input: this.state.canvas }))
       .then(c => {
-        this.props.addToQueue(this.state.canvas)
         alert("Drawing added to queue");
         this.clear();
         this.id = uuid();

@@ -107,10 +107,9 @@ const App = () => {
 
 
   const addToQueue = (canvas) => {
-    setCanvasQueue([
-      canvas,
-      ...canvasQueue
-    ])
+    const oldQueue = canvasQueue;
+    oldQueue.splice(index, 0, canvas);
+    setCanvasQueue(oldQueue)
   }
 
 
@@ -125,17 +124,27 @@ const App = () => {
     })
   }
 
+  const parseAndReturnCanvas = (canvas) => {
+
+    let parsed = null;
+    if (canvas.data) {
+      parsed = JSON.parse(canvas.data);
+    }
+    return {
+      ...canvas,
+      data: parsed
+    }
+  }
+
   React.useEffect(() => {
     // Create the canvas. If canvas is already created, retrieve the data & draw previous canvas
     API.graphql(graphqlOperation(listCanvass, { limit: 50 }))
       .then(({ data }) => {
-        const parsed = data.listCanvass.items.map(dbCanvas => {
-          console.log("parsing");
-          return JSON.parse(dbCanvas.data)
+        const parsedCanvasList = data.listCanvass.items.forEach(dbCanvas => {
+          const parsed = parseAndReturnCanvas(dbCanvas);
+          if (parsed.data) return parsed;
         })
-        setCanvasQueue(parsed)
-        setRawDBdata(data.listCanvass.items)
-
+        setCanvasQueue(parsedCanvasList)
       })
       .catch(err => {
         console.error(err);
@@ -144,15 +153,13 @@ const App = () => {
     API.graphql(graphqlOperation(onCreateCanvas))
       .subscribe({
         next: (d) => {
-          const data = JSON.parse(d.value.data.onCreateCanvas.data)
-          const length = data.lines.length
+          // const data = JSON.parse(d.value.data.onCreateCanvas.data)
+          const parsedCanvas = parseAndReturnCanvas(d.value.data.onCreateCanvas);
+          if (!parsedCanvas.data) return 
+          const {length} = parsedCanvas.data.lines
           if (length === Number(0)) return
           console.log(canvasQueue);
-          // addToQueue(data);
-          setRawDBdata([
-            d.value.data.onCreateCanvas.data,
-            ...rawDBdata,
-          ])
+          addToQueue(parsedCanvas);
           renderIndexFromQueue()
 
         }
@@ -174,7 +181,7 @@ const App = () => {
         <button onClick={toggleStream}>{!displayStream ? "Stream" : "+ Drawing"}</button>
       </div>
       {displayStream && <LiveStream index={index} canvasQueue={canvasQueue} incrementIndex={incrementIndex} />}
-      {!displayStream && <Canvas addToQueue={addToQueue} />}
+      {!displayStream && <Canvas />}
     </div>
   );
 }
