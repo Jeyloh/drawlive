@@ -89,7 +89,7 @@ body {
 }
 
 .stream-canvas {
-  animation: App-logo-spin infinite 12s ease-in;
+  animation: App-logo-spin infinite 12s ease-in-out;
   background: transparent;
 }
 
@@ -108,6 +108,6 @@ body {
     transform: rotate(0deg) scale(0);
   }
   to {
-    transform: rotate(90deg) scale(4);
+    transform: rotate(90deg) scale(3);
   }
 }
