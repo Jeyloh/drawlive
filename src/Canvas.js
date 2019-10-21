@@ -31,7 +31,7 @@ class Canvas extends Component {
     brushColor: rand(),
     canvasHeight: 400,
     canvasWidth: 400,
-    brushRadius: 2,
+    brushRadius: 4,
     lazyRadius: 8,
     canvas: null
   }

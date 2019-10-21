@@ -28,7 +28,7 @@ class LiveStream extends React.Component {
         if (!this.state.updatedQueueFromRaw && this.props.rawQueue.length !== prevProps.rawQueue.length) {
             this.parseAndSetCanvasQueue(this.props.rawQueue)
         }
-        if (!this.state.updatedQueueFromRaw && this.props.index === this.state.canvasQueue.length) {
+        if (!this.state.updatedQueueFromRaw && this.state.canvasQueue.length > 1 && this.props.index + 1 === this.state.canvasQueue.length) {
             this.parseAndSetCanvasQueue(this.props.rawQueue);
             this.setState({
                 updatedQueueFromRaw: true
