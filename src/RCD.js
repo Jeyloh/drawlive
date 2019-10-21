@@ -223,10 +223,11 @@ export default class extends PureComponent {
   simulateDrawingLines = ({ lines, immediate }) => {
     // Simulate live-drawing of the loaded lines
     // TODO use a generator
+    const _lines = lines;
     let curTime = 0;
     let timeoutGap = immediate ? 0 : this.props.loadTimeOffset;
 
-    lines.forEach(line => {
+    _lines.forEach(line => {
       const { points, brushColor, brushRadius } = line;
 
       for (let i = 1; i < points.length; i++) {
@@ -244,7 +245,11 @@ export default class extends PureComponent {
 
       curTime += timeoutGap;
       console.log("curTime: ", curTime)
-
+      window.setTimeout(() => {
+        // Save this line with its props instead of this.props
+        this.points = points;
+        this.saveLine({ brushColor, brushRadius });
+      }, curTime);
     });
   };
 

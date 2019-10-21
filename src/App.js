@@ -10,8 +10,7 @@ import { onCreateCanvas } from './graphql/subscriptions'
 import { listCanvass } from './graphql/queries'
 import { deleteCanvas } from "./graphql/mutations";
 import LiveStream from "./LiveStream";
-
-
+import { ReactComponent as QRSvg } from "./drawliveQR.svg";
 const App = () => {
 
   const [displayStream, setDisplayStream] = React.useState(true);
@@ -168,6 +167,7 @@ const App = () => {
         Display #{index ? index + 1 : 0} of {canvasQueue.length} drawings in queue
           </div>
       }
+        <QRSvg className="qr-svg" />
 
       <div className="buttonbar right">
         <button onClick={deleteAll}>Delete all</button>

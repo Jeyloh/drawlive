@@ -93,6 +93,12 @@ body {
   background: transparent;
 }
 
+.qr-svg {
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+}
+
 #stream-wrapper {
   display: flex;
   height: 100vh;
