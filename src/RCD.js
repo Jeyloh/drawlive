@@ -131,22 +131,6 @@ export default class extends PureComponent {
     }, 100);
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.lazyRadius !== this.props.lazyRadius) {
-      // Set new lazyRadius values
-      this.chainLength = this.props.lazyRadius * window.devicePixelRatio;
-      this.lazy.setRadius(this.props.lazyRadius * window.devicePixelRatio);
-    }
-
-    if (prevProps.saveData !== this.props.saveData) {
-      this.loadSaveData(this.props.saveData);
-    }
-
-    if (JSON.stringify(prevProps) !== JSON.stringify(this.props)) {
-      // Signal this.loop function that values changed
-      this.valuesChanged = true;
-    }
-  }
 
   componentWillUnmount = () => {
     this.canvasObserver.unobserve(this.canvasContainer);
@@ -369,9 +353,9 @@ export default class extends PureComponent {
     this.ctx.temp.lineCap = "round";
     this.ctx.temp.strokeStyle = brushColor;
 
-    // if (this.props.disabled) {
-    //   this.ctx.temp.shadowBlur = 20;
-    // }
+    if (this.props.disabled) {
+      this.ctx.temp.shadowBlur = 200;
+    }
 
     this.ctx.temp.clearRect(
       0,

@@ -107,8 +107,9 @@ class Canvas extends Component {
   };
   render() {
     return (
-      <div>
-        <div className="buttonbar left">
+      <>
+        <div className="buttonbar right">
+        <button name='closebutton' onClick={this.props.toggleModal}>Close</button>
         <button name='clearbutton' onClick={this.clear}>Clear</button>
         <button name='undobutton' onClick={this.undo}>Undo</button>
         <button name='submitbtn' className="green" onClick={this.submitCanvas}>Submit</button>
@@ -134,7 +135,7 @@ class Canvas extends Component {
         </div>
         
      
-      </div>
+      </>
     );
   }
 }

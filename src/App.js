@@ -1,121 +1,56 @@
 import React from "react";
-import ReactDOM from "react-dom"
 
 import './App.css';
 import Canvas from "./Canvas";
 
-import CanvasDraw from "./RCD";
 import { API, graphqlOperation } from 'aws-amplify'
 import { onCreateCanvas } from './graphql/subscriptions'
 import { listCanvass } from './graphql/queries'
 import { deleteCanvas } from "./graphql/mutations";
 import LiveStream from "./LiveStream";
-import { ReactComponent as QRSvg } from "./drawliveQR.svg";
 
 
-const App = () => {
+class App extends React.Component {
 
-  const [displayStream, setDisplayStream] = React.useState(true);
-  const [canvasQueue, setCanvasQueue] = React.useState([]);
-  const [index, setIndex] = React.useState(0);
-  const [currentLines, setCurrentLines] = React.useState(null);
+    state = {
+      displayAddCanvasModal: false,
+      index: 0,
+      rawQueue: []
+    }
 
-  const canvasRef = React.useRef();
+    // componentDidUpdate(prevProps, prevState) {
+    //   if (prevState.index > prevState.rawQueue.length - 2) {
+    //     this.setState({
+    //       rawQueue: this.state.rawQueue
+    //     })
+    //   }
+    // }
 
-  const incrementIndex = () => {
+  incrementIndex = () => {
+    const { index, rawQueue } = this.state;
 
-    if (index + 1 >= canvasQueue.length) {
-      setIndex(0)
+    if (index + 1 >= rawQueue.length) {
+      this.setState({index: 0})
     } else {
-      setIndex(index + 1)
+      this.setState({index: index +1})
     }
   }
 
-  const drawingCompleteCallback = () => {
-    console.log("drawingCompleteCallback")
-    if ( canvasRef.current) {
-      const data = canvasRef.current.getSaveData()
-      const parsedData = JSON.parse(data)
-      const newData = {
-        ...parsedData,
-        lines: []
-      }
-      const newCanvas = JSON.stringify(newData)
-      canvasRef.current.loadSaveData(newCanvas)
-      incrementIndex();
-    }
-  }
-  let i = 0;
+  addToQueue = (canvas) => {
+    const { index, rawQueue } = this.state;
 
-  React.useEffect(() => {
-    if (canvasRef.current) {
+    const newQueue = rawQueue;
+    newQueue.splice(index, 0, canvas);
 
-      canvasRef.current.simulateDrawingLines({
-        lines: currentLines,
-      })
-      
-      setTimeout( () => {
-        drawingCompleteCallback()
-      }, 12000)
-    }
-
-  }, [currentLines, canvasRef])
-
-  React.useEffect(() => {
-    renderIndexFromQueue()
-  }, [canvasQueue, index])
-
-  const renderIndexFromQueue = () => {
-    if (!displayStream) return;
-    if (!canvasQueue.length) return console.log("no stream");
-    const queue = [
-      ...canvasQueue
-    ]
-    const data = queue[index];
-    if (!data || !data.lines || !data.lines[0].points.length) {
-      console.log("No data in ");
-      return incrementIndex();
-    }
-
-    const lines = data.lines;
-
-    i += i + 1;
-    const CanvasDrawElem = React.createElement(
-      CanvasDraw,
-      {
-        key: `index-${index}-${i}`,
-        ref: canvasRef,
-        className: "stream-canvas",
-        hideGrid: true,
-        disabled: true,
-        lazyRadius: 8,
-        loadTimeOffset: 12,
-        canvasBackground: "transparent",
-      },
-      null
-    )
-
-    console.log("RENDER CANVAS TO STREAM")
-    ReactDOM.render(
-      CanvasDrawElem,
-      document.getElementById("stream-wrapper")
-    );
-
-    console.log("START DRAWING LINES", lines)
-    setCurrentLines(lines);
-
+    this.setState({
+      rawQueue:rawQueue,
+    })
   }
 
+  deleteAll = () => {
+    const { rawQueue } = this.state;
 
-  const addToQueue = (canvas) => {
-    const oldQueue = canvasQueue;
-    oldQueue.splice(index, 0, canvas);
-    setCanvasQueue(oldQueue)
-  }
-
-
-  const deleteAll = () => {
-    canvasQueue.forEach(dbData => {
+    rawQueue.forEach(dbData => {
       API.graphql(graphqlOperation(deleteCanvas, { input: { id: dbData.id } })).then(() => {
         console.log("All drawings deleted");
       }).catch(err => {
@@ -125,63 +60,57 @@ const App = () => {
     })
   }
 
-  const parseAndReturnCanvas = (canvas) => {
 
-    let parsed = null;
-    if (canvas.data) {
-      parsed = JSON.parse(canvas.data);
-    }
-    return {
-      ...canvas,
-      data: parsed
-    }
-  }
 
-  React.useEffect(() => {
-    // Create the canvas. If canvas is already created, retrieve the data & draw previous canvas
+  componentDidMount() {
+    const { addToQueue } = this;
+
     API.graphql(graphqlOperation(listCanvass, { limit: 50 }))
-      .then(({ data }) => {
-        const parsedCanvasList = data.listCanvass.items.filter(dbCanvas => parseAndReturnCanvas(dbCanvas).data)
-        setCanvasQueue(parsedCanvasList)
+    .then(({ data }) => {
+      
+      this.setState({
+        rawQueue:data.listCanvass.items,
       })
-      .catch(err => {
-        console.error(err);
-      })
+    })
+    .catch(err => {
+      console.error(err);
+    })
 
-    API.graphql(graphqlOperation(onCreateCanvas))
-      .subscribe({
-        next: (d) => {
-          // const data = JSON.parse(d.value.data.onCreateCanvas.data)
-          const parsedCanvas = parseAndReturnCanvas(d.value.data.onCreateCanvas);
-          if (!parsedCanvas.data) return 
-          const {length} = parsedCanvas.data.lines
-          if (length === Number(0)) return
-          console.log(canvasQueue);
-          addToQueue(parsedCanvas);
-          renderIndexFromQueue()
+  API.graphql(graphqlOperation(onCreateCanvas))
+    .subscribe({
+      next: (d) => {
+        // const data = JSON.parse(d.value.data.onCreateCanvas.data)
+        
+        addToQueue(d.value.data.onCreateCanvas);
 
-        }
-      })
-  }, [])
-
-  const toggleStream = () => setDisplayStream(!displayStream);
+      }
+    })
+  }
+ 
+  toggleModal = () => {
+    this.setState({displayAddCanvasModal: !this.state.displayAddCanvasModal})
+  }
+  render () {
+    const { displayAddCanvasModal, rawQueue, index } = this.state;
+    const { deleteAll, toggleModal, incrementIndex } = this;
 
   return (
     <div className="app-wrapper">
-      {displayStream && <div className="buttonbar left">
-        Display #{index ? index + 1 : 0} of {canvasQueue.length} drawings in queue
+      <div className="buttonbar left">
+        Display #{rawQueue.length ? index + 1 : 0} of {rawQueue.length} drawings in queue
           </div>
-      }
-        <QRSvg className="qr-svg" />
 
       <div className="buttonbar right">
         <button onClick={deleteAll}>Delete all</button>
-        <button onClick={toggleStream}>{!displayStream ? "Stream" : "+ Drawing"}</button>
+        <button onClick={toggleModal}>+ Drawing</button>
       </div>
-      {displayStream && <LiveStream index={index} canvasQueue={canvasQueue} incrementIndex={incrementIndex} />}
-      {!displayStream && <Canvas />}
+      {rawQueue.length && <LiveStream index={index} rawQueue={rawQueue} incrementIndex={incrementIndex} />}
+      <div className={displayAddCanvasModal ? "modal slide-in":"modal" }>
+        <Canvas toggleModal={toggleModal} />
+      </div>
     </div>
   );
+}
 }
 
 export default App

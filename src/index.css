@@ -1,5 +1,6 @@
 :root {
   --yellow: #ffc600;
+  --blue: #006DA8;
   --black: #282c34;
 }
 
@@ -12,8 +13,9 @@ html {
 }
 
 body {
-  background: var(--black);
   color: #e535ab;
+  background: var(--black) url("./logo-square.png") no-repeat center ;
+  background-size: 20%;
 }
 
 span {
