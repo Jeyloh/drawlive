@@ -136,6 +136,8 @@ button {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  animation: Rotate-canvas-wrapper infinite 200s linear;
+
 }
 
 .modal {
@@ -165,12 +167,21 @@ button {
   margin-top: 10px;
 }
 
+@keyframes Rotate-canvas-wrapper {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes Rotate-canvas {
   from {
     transform: rotate(0deg) scale(0);
   }
   to {
-    transform: rotate(90deg) scale(3);
+    transform: rotate(90deg) scale(2);
   }
 }
 

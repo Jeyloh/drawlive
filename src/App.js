@@ -67,6 +67,11 @@ class App extends React.Component {
   deleteAll = () => {
     const { canvasQueue } = this.state;
 
+    const prompt = window.prompt(
+      'Are you sure you want to delete drawings?',
+    );
+    if (prompt !== "qwer") return null;
+
     canvasQueue.forEach(dbData => {
       API.graphql(graphqlOperation(deleteCanvas, { input: { id: dbData.id } })).then(() => {
         console.log("All drawings deleted");
@@ -81,7 +86,7 @@ class App extends React.Component {
     const { index, canvasQueue } = this.state;
 
     const newQueue = clone(canvasQueue);
-    newQueue.splice(index, 0, canvas);
+    newQueue.splice(index + 1, 0, canvas);
 
     this.setState({
       canvasQueue: newQueue,
@@ -151,9 +156,10 @@ class App extends React.Component {
           </div>
 
         <div className="buttonbar right top">
-          <button onClick={deleteAll}>Delete all</button>
           <button onClick={toggleModal}>+ Drawing</button>
         </div>
+        <button className="bottom left" onClick={deleteAll}>Delete all</button>
+
         {!!canvasQueue.length && <LiveStream index={index} canvasQueue={canvasQueue} incrementIndex={incrementIndex} />}
         <div className={displayAddCanvasModal ? "modal slide-in" : "modal"}>
           <Canvas toggleModal={toggleModal} />

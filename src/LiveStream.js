@@ -18,45 +18,6 @@ class LiveStream extends React.Component {
         this.createCanvasFromIndex();
     }
 
-    // componentDidUpdate(prevProps, prevState) {
-    //     //     if (this.props.index !== prevProps.index) {
-    //     //         this.createCanvasFromIndex();
-    //     //     }
-
-    //     if (!this.state.updatedQueueFromRaw && this.props.rawQueue.length !== prevProps.rawQueue.length) {
-    //         this.parseAndSetCanvasQueue(this.props.rawQueue)
-    //     }
-    //     if (!this.state.updatedQueueFromRaw && this.state.canvasQueue.length > 1 && this.props.index + 1 === this.state.canvasQueue.length) {
-    //         this.parseAndSetCanvasQueue(this.props.rawQueue);
-    //         this.setState({
-    //             updatedQueueFromRaw: true
-    //         })
-    //     } else if (this.state.updatedQueueFromRaw && !this.props.index) {
-    //         this.setState({
-    //             updatedQueueFromRaw: false
-    //         })
-    //     }
-
-    //     if (prevState.canvasQueue.length !== this.state.canvasQueue.length) {
-    //         this.createCanvasFromIndex();
-    //     }
-    // }
-
-    // parseAndSetCanvasQueue = (rawQueue) => {
-    //     const canvasQueue = rawQueue.map(canvas => {
-    //         const parsed = JSON.parse(canvas.data);
-    //         if (canvas.data && parsed && parsed.lines) return {
-    //             ...canvas,
-    //             data: parsed
-    //         };
-    //     })
-
-    //     this.setState({
-    //         canvasQueue: canvasQueue,
-    //     })
-    // }
-
-
     drawingCompleteCallback = () => {
         const { incrementIndex } = this.props;
         console.log("drawingCompleteCallback")
@@ -111,6 +72,8 @@ class LiveStream extends React.Component {
                         className={"stream-canvas"}
                         hideGrid={true}
                         disabled={true}
+                        canvasWidth={600}
+                        canvasHeight={600}
                         lazyRadius={8}
                         loadTimeOffset={12}
                         canvasBackground={"transparent"}
