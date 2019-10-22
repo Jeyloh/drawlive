@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import CanvasDraw from "./RCD";
 import uuid from 'uuid/v4'
-import { SliderPicker  } from 'react-color';
+import { SliderPicker } from 'react-color';
 
 import { API, graphqlOperation } from 'aws-amplify'
 import { createCanvas } from './graphql/mutations'
@@ -41,11 +41,11 @@ class Canvas extends Component {
   clientId = uuid()
   canvasInfo = 'tempcanvas'
   componentDidMount() {
- 
+
     this.eventListener = window.addEventListener('mouseup', (e) => {
       // If we are clicking on a button, do not update anything
       if (e.target.name === 'clearbutton') return
-      
+
       const data = this.drawCanvas.getSaveData()
       const p = JSON.parse(data)
       const length = p.lines.length
@@ -108,33 +108,34 @@ class Canvas extends Component {
   render() {
     return (
       <>
-        <div className="buttonbar right">
-        <button name='closebutton' onClick={this.props.toggleModal}>Close</button>
-        <button name='clearbutton' onClick={this.clear}>Clear</button>
-        <button name='undobutton' onClick={this.undo}>Undo</button>
-        <button name='submitbtn' className="green" onClick={this.submitCanvas}>Submit</button>
+        <div className="buttonbar right top">
+          <button name='closebutton' onClick={this.props.toggleModal}>Close</button>
         </div>
         <div className="wrapper">
-        <CanvasDraw
-          {...this.state}
-          ref={canvas => this.drawCanvas = canvas}
-        />
-         
-             <div className="tool-wrapper">
-             <SliderPicker 
-                onChangeComplete={ this.handleColorChangeComplete }
-                color={this.state.brushColor}
-              />
-          <div>
-            <label >Brush thickness ({this.state.brushRadius}):</label>
-            <button disabled={this.state.brushRadius < 3 } onClick={this.decreaseThickness}>-</button>
-            <button disabled={this.state.brushRadius > 19} onClick={this.increaseThickness}>+</button>
-          </div>
-       
+        <div className="tool-wrapper">
+          <button name='clearbutton' className="clear-btn" onClick={this.clear}>Clear</button>
+          <button name='undobutton' className="undo-btn" onClick={this.undo}>Undo</button>
+          <CanvasDraw
+            {...this.state}
+            ref={canvas => this.drawCanvas = canvas}
+          />
+
+          
+            <SliderPicker
+              onChangeComplete={this.handleColorChangeComplete}
+              color={this.state.brushColor}
+            />
+            <div className="brush-thickness-wrapper">
+              <label >Brush thickness ({this.state.brushRadius})</label>
+              <button className="decrease-thickness-button" disabled={this.state.brushRadius < 3} onClick={this.decreaseThickness}>-</button>
+              <button className="increase-thickness-btn" disabled={this.state.brushRadius > 19} onClick={this.increaseThickness}>+</button>
+            </div>
+            <button name='submitbtn' className="submit-btn green" onClick={this.submitCanvas}>Submit</button>
+
           </div>
         </div>
-        
-     
+
+
       </>
     );
   }
