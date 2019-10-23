@@ -12,8 +12,7 @@ import { deleteCanvas } from "./graphql/mutations";
 
 class AdminPage extends Component {
   
-  state = {
-  }
+
 
   
   deleteAll = () => {
@@ -57,19 +56,40 @@ class AdminPage extends Component {
       .catch(err => console.log('error creating: ', err))
   }
 
+  componentDidMount() {
+    setTimeout ( () => {
+      this.props.canvasQueue.map( canvas => {
+        const stringData = JSON.stringify(canvas.data);
+        this[canvas.id].loadSaveData(stringData, true)
+        return canvas.id
+      })
+    }, 1000)
+  
+  }
+
   render() {
     return (
      <div className="admin-wrapper">
        <button name='closebutton' className="top right" onClick={this.props.toggleAdmin}>Close</button>
        <button className="top left">Delete all</button>
+       <div className="admin-canvas-wrapper">
        { this.props.canvasQueue.map( canvas => {
          return (
-           <>
-              <p>{canvas.id}</p>
-              <button onClick={() => this.deleteCanvas(canvas)}>X</button>
-           </>
+           <div key={canvas.id} style={{margin: 10}} onClick={() => this.deleteCanvas(canvas)}>
+              <CanvasDraw ref={c => this[canvas.id] = c}
+                        hideGrid={true}
+                        disabled={true}
+                        canvasWidth={100}
+                        
+                        canvasHeight={100}
+                        lazyRadius={8}
+                        loadTimeOffset={12}
+              />
+           </div>
          )
        })}
+       </div>
+     
 
      </div>
     );

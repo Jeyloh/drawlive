@@ -114,6 +114,8 @@ button {
 .admin-btn {
   background: transparent;
   padding: 50px;
+  outline: none;
+  border: none;
 }
 
 .wrapper {
@@ -158,9 +160,27 @@ button {
   width: 100vw;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
   animation: Rotate-canvas-wrapper infinite 200s linear;
 
+}
+
+.admin-canvas-wrapper {
+  padding: 100px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.admin-modal {
+  display: flex;
+  overflow: hidden;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  position: absolute;
+  background: var(--black);
+  border: 3px solid var(--blue);
+ 
 }
 
 .modal {
@@ -215,5 +235,12 @@ button {
   }
   to {
     transform: translateY(0);
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  .qr-svg {
+    display: none;
   }
 }

@@ -152,6 +152,10 @@ class App extends React.Component {
   }
 
   toggleAdmin = () => {
+    if (!this.state.displayAdminModal) {
+      const p = prompt("Speak friend and enter");
+      if (p !== "qwer") return
+    }
     this.setState({ displayAdminModal: !this.state.displayAdminModal })
   }
   render() {
@@ -167,15 +171,16 @@ class App extends React.Component {
         <div className="buttonbar right top">
           <button onClick={toggleModal}>+ Drawing</button>
         </div>
-        <button className="top left admin-btn" onClick={toggleAdmin}></button>
+        <button className="bottom left admin-btn" onClick={toggleAdmin}></button>
 
         {!!canvasQueue.length && <LiveStream index={index} canvasQueue={canvasQueue} incrementIndex={incrementIndex} />}
         <div className={displayAddCanvasModal ? "modal slide-in" : "modal"}>
           <Canvas toggleModal={toggleModal} />
         </div>
-        <div className={displayAdminModal ? "modal slide-in" : "modal"}>
+        { displayAdminModal && <div className={"admin-modal"}>
           <AdminPage canvasQueue={canvasQueue} toggleAdmin={toggleAdmin} />
         </div>
+        }
         <QRSvg className={qrScaled ? "qr-svg scale" : "qr-svg" } onClick={ () => this.setState({qrScaled: !this.state.qrScaled})} />
 
       </div>
