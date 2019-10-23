@@ -16,7 +16,7 @@ class AdminPage extends Component {
 
   
   deleteAll = () => {
-    const { canvasQueue } = this.state;
+    const { canvasQueue } = this.props;
 
     const prompt = window.prompt(
       'Are you sure you want to delete drawings?',
@@ -71,7 +71,7 @@ class AdminPage extends Component {
     return (
      <div className="admin-wrapper">
        <button name='closebutton' className="top right" onClick={this.props.toggleAdmin}>Close</button>
-       <button className="top left">Delete all</button>
+       <button className="top left" onClick={this.deleteAll}>Delete all</button>
        <div className="admin-canvas-wrapper">
        { this.props.canvasQueue.map( canvas => {
          return (

@@ -9,8 +9,7 @@ class LiveStream extends React.Component {
 
 
     componentWillUnmount() {
-        this.timeout1 && clearTimeout(this.timeout1);
-        this.timeout2 && clearTimeout(this.timeout2);
+        this.timeout && clearTimeout(this.timeout);
     }
 
     componentDidMount() {
@@ -54,7 +53,7 @@ class LiveStream extends React.Component {
             lines: lines,
         })
 
-        this.timeout2 = setTimeout(() => {
+        this.timeout = setTimeout(() => {
             this.drawingCompleteCallback()
         }, 12000)
 
