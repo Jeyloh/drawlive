@@ -16,6 +16,10 @@ body {
   color: white;
 }
 
+.app-wrapper {
+  touch-action: none;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -29,10 +33,11 @@ body {
 }
 
 .tool-wrapper {
-  width: 400px;
+  width: 300px;
   color: white;
   margin-top: 20px;
   position: relative;
+  touch-action: none;
 
 }
 .tool-wrapper label {
@@ -40,22 +45,22 @@ body {
 }
 
 .tool-wrapper .increase-thickness-btn, .tool-wrapper .decrease-thickness-button {
-  padding: 6px 12px;
+  padding: 3px 12px;
   margin-right: 10px;
   background: transparent;
   border: none;
-  font-size: 48px;
   color: white;
 
 }
 
 
 .buttonbar {
+  z-index: 400;
   position: absolute;
 }
 .submit-btn  {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 button {
   border: white;
@@ -119,7 +124,7 @@ button {
 }
 
 .wrapper {
-  
+  touch-action: none;
   display: flex;
   height: 100%;
   width: 100%;
@@ -141,6 +146,11 @@ button {
 .stream-canvas {
   animation: Rotate-canvas infinite 12s ease-in-out;
   background: transparent;
+  touch-action: none;
+}
+
+.stream-canvas canvas {
+  touch-action: none;
 }
 
 .qr-svg {
@@ -160,6 +170,7 @@ button {
   width: 100vw;
   justify-content: center;
   align-items: center;
+  touch-action: none;
   animation: Rotate-canvas-wrapper infinite 200s linear;
 
 }
@@ -168,6 +179,10 @@ button {
   padding: 100px;
   display: flex;
   flex-wrap: wrap;
+}
+
+.admin-canvas-wrapper canvas{
+  touch-action: none;
 }
 
 .admin-modal {
@@ -180,10 +195,25 @@ button {
   position: absolute;
   background: var(--black);
   border: 3px solid var(--blue);
- 
+  z-index: 450;
+
+}
+
+.admin-item-relative {
+  position: relative;
+}
+.admin-delete-btn {
+  position: absolute;
+  font-size: 16px;
+  left: -30px;
+  top: -15px;
+  color: white;
+  background: transparent;
 }
 
 .modal {
+  z-index: 450;
+
   display: flex;
   overflow: hidden;
   max-height: 0;

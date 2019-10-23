@@ -75,12 +75,12 @@ class AdminPage extends Component {
        <div className="admin-canvas-wrapper">
        { this.props.canvasQueue.map( canvas => {
          return (
-           <div key={canvas.id} style={{margin: 10}} onClick={() => this.deleteCanvas(canvas)}>
+           <div className="admin-item-relative" key={canvas.id} style={{margin: 10}} >
+             <button className="admin-delete-btn" onClick={() => this.deleteCanvas(canvas)}>X</button>
               <CanvasDraw ref={c => this[canvas.id] = c}
                         hideGrid={true}
                         disabled={true}
                         canvasWidth={100}
-                        
                         canvasHeight={100}
                         lazyRadius={8}
                         loadTimeOffset={12}

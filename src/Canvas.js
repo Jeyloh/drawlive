@@ -29,8 +29,8 @@ class Canvas extends Component {
 
   state = {
     brushColor: rand(),
-    canvasHeight: 400,
-    canvasWidth: 400,
+    canvasHeight: 300,
+    canvasWidth: 300,
     brushRadius: 4,
     lazyRadius: 8,
     canvas: null
