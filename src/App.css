@@ -91,20 +91,29 @@ button {
   background: var(--blue)!important;
 }
 .top {
+  position: absolute;
   top: 1em;
 }
 .left {
+  position: absolute;
   left: 1em;
 }
 .right {
+  position: absolute;
   right: 1em;
 }
 .bottom {
+  position: absolute;
   bottom: 1em;
 }
 
 button {
   z-index: 500;
+}
+
+.admin-btn {
+  background: transparent;
+  padding: 50px;
 }
 
 .wrapper {
@@ -118,6 +127,15 @@ button {
   flex-direction: column;
 }
 
+.admin-wrapper {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.admin-wrapper * {
+  color: white;
+}
+
 .stream-canvas {
   animation: Rotate-canvas infinite 12s ease-in-out;
   background: transparent;
@@ -129,6 +147,11 @@ button {
   right: 1em;
 }
 
+.qr-svg.scale {
+  width: 400px;
+  height: 400px;
+  transform: scale(3);
+}
 #stream-wrapper {
   display: flex;
   height: 100vh;

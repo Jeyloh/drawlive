@@ -2,12 +2,13 @@ import React from "react";
 
 import './App.css';
 import Canvas from "./Canvas";
+import { ReactComponent as QRSvg } from "./drawliveQR.svg";
 
 import { API, graphqlOperation } from 'aws-amplify'
-import { onCreateCanvas } from './graphql/subscriptions'
+import { onCreateCanvas, onDeleteCanvas } from './graphql/subscriptions'
 import { listCanvass } from './graphql/queries'
-import { deleteCanvas } from "./graphql/mutations";
 import LiveStream from "./LiveStream";
+import AdminPage from "./AdminPage";
 
 export function clone(obj) {
   var copy;
@@ -46,7 +47,9 @@ export function clone(obj) {
 class App extends React.Component {
 
   state = {
+    displayAdminModal: false,
     displayAddCanvasModal: false,
+    qrScaled: false,
     index: 0,
     canvasQueue: []
   }
@@ -64,23 +67,6 @@ class App extends React.Component {
 
 
 
-  deleteAll = () => {
-    const { canvasQueue } = this.state;
-
-    const prompt = window.prompt(
-      'Are you sure you want to delete drawings?',
-    );
-    if (prompt !== "qwer") return null;
-
-    canvasQueue.forEach(dbData => {
-      API.graphql(graphqlOperation(deleteCanvas, { input: { id: dbData.id } })).then(() => {
-        console.log("All drawings deleted");
-      }).catch(err => {
-        console.error(err);
-      })
-
-    })
-  }
 
   addToQueue = (canvas) => {
     const { index, canvasQueue } = this.state;
@@ -119,7 +105,7 @@ class App extends React.Component {
         console.error(err);
       })
 
-    API.graphql(graphqlOperation(onCreateCanvas))
+      API.graphql(graphqlOperation(onCreateCanvas))
       .subscribe({
         next: (d) => {
           try {
@@ -140,14 +126,37 @@ class App extends React.Component {
 
         }
       })
+      API.graphql(graphqlOperation(onDeleteCanvas))
+        .subscribe({
+          next: (d) => {
+            try {
+              const removedCanvas = d.value.data.onDeleteCanvas
+              const queue = clone(this.state.canvasQueue)
+              const lists = queue.filter(x => {
+                return x.id !== removedCanvas.id;
+              })
+              this.setState({
+                canvasQueue: lists
+              })
+  
+            } catch (err) {
+              console.log(err)
+            }
+  
+          }
+        })
   }
 
   toggleModal = () => {
     this.setState({ displayAddCanvasModal: !this.state.displayAddCanvasModal })
   }
+
+  toggleAdmin = () => {
+    this.setState({ displayAdminModal: !this.state.displayAdminModal })
+  }
   render() {
-    const { displayAddCanvasModal, canvasQueue, index } = this.state;
-    const { deleteAll, toggleModal, incrementIndex } = this;
+    const { displayAddCanvasModal, qrScaled, displayAdminModal, canvasQueue, index } = this.state;
+    const { toggleModal, toggleAdmin, incrementIndex } = this;
 
     return (
       <div className="app-wrapper" style={{ height: "100vh", width: "100vw" }}>
@@ -158,12 +167,17 @@ class App extends React.Component {
         <div className="buttonbar right top">
           <button onClick={toggleModal}>+ Drawing</button>
         </div>
-        <button className="bottom left" onClick={deleteAll}>Delete all</button>
+        <button className="top left admin-btn" onClick={toggleAdmin}></button>
 
         {!!canvasQueue.length && <LiveStream index={index} canvasQueue={canvasQueue} incrementIndex={incrementIndex} />}
         <div className={displayAddCanvasModal ? "modal slide-in" : "modal"}>
           <Canvas toggleModal={toggleModal} />
         </div>
+        <div className={displayAdminModal ? "modal slide-in" : "modal"}>
+          <AdminPage canvasQueue={canvasQueue} toggleAdmin={toggleAdmin} />
+        </div>
+        <QRSvg className={qrScaled ? "qr-svg scale" : "qr-svg" } onClick={ () => this.setState({qrScaled: !this.state.qrScaled})} />
+
       </div>
     );
   }

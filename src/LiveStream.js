@@ -1,6 +1,5 @@
 import React from "react";
 import CanvasDraw from "./RCD";
-import { ReactComponent as QRSvg } from "./drawliveQR.svg";
 import { clone } from "./App"; 
 
 class LiveStream extends React.Component {
@@ -64,7 +63,6 @@ class LiveStream extends React.Component {
     render() {
         return (
             <>
-                <QRSvg className="qr-svg" />
                 <div id="stream-wrapper">
                     <CanvasDraw
                         key={`index-${this.props.index}`}
