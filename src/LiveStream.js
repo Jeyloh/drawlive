@@ -55,7 +55,7 @@ class LiveStream extends React.Component {
 
         this.timeout = setTimeout(() => {
             this.drawingCompleteCallback()
-        }, 12000)
+        }, 18000)
 
     }
 
@@ -69,10 +69,10 @@ class LiveStream extends React.Component {
                         className={"stream-canvas"}
                         hideGrid={true}
                         disabled={true}
-                        canvasWidth={this.props.canvasQueue[this.props.index].data.width}
+                            canvasWidth={this.props.canvasQueue[this.props.index].data.width}
                         canvasHeight={this.props.canvasQueue[this.props.index].data.height}
                         lazyRadius={8}
-                        loadTimeOffset={12}
+                        loadTimeOffset={18}
                         canvasBackground={"transparent"}
                     />
                 </div>
