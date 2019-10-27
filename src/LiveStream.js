@@ -69,8 +69,8 @@ class LiveStream extends React.Component {
                         className={"stream-canvas"}
                         hideGrid={true}
                         disabled={true}
-                        canvasWidth={300}
-                        canvasHeight={300}
+                        canvasWidth={this.props.canvasQueue[this.props.index].data.width}
+                        canvasHeight={this.props.canvasQueue[this.props.index].data.height}
                         lazyRadius={8}
                         loadTimeOffset={12}
                         canvasBackground={"transparent"}

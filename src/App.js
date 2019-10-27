@@ -9,6 +9,7 @@ import { onCreateCanvas, onDeleteCanvas } from './graphql/subscriptions'
 import { listCanvass } from './graphql/queries'
 import LiveStream from "./LiveStream";
 import AdminPage from "./AdminPage";
+import { Plus } from "./assets";
 
 export function clone(obj) {
   var copy;
@@ -168,15 +169,11 @@ class App extends React.Component {
           Display #{canvasQueue.length ? index + 1 : 0} of {canvasQueue.length} drawings in queue
           </div>
 
-        <div className="buttonbar right top">
-          <button onClick={toggleModal}>+ Drawing</button>
-        </div>
+        <Plus className="add-canvas-btn z-index" onClick={toggleModal} />
         <button className="bottom left admin-btn" onClick={toggleAdmin}></button>
 
         {!!canvasQueue.length && <LiveStream index={index} canvasQueue={canvasQueue} incrementIndex={incrementIndex} />}
-        <div className={displayAddCanvasModal ? "modal slide-in" : "modal"}>
-          <Canvas toggleModal={toggleModal} />
-        </div>
+        { displayAddCanvasModal && <Canvas hidden toggleModal={toggleModal} /> }
         { displayAdminModal && <div className={"admin-modal"}>
           <AdminPage canvasQueue={canvasQueue} toggleAdmin={toggleAdmin} />
         </div>

@@ -25,8 +25,7 @@ html {
 
 body {
   color: #e535ab;
-  background: var(--black) url("./logo-square.png") no-repeat center ;
-  background-size: 20%;
+  background: var(--black);
 }
 
 span {
@@ -37,7 +36,6 @@ span {
 }
 
 #root {
-  
   height: 100vh;
   width: 100vw;
 }

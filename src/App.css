@@ -33,35 +33,85 @@ body {
 }
 
 .tool-wrapper {
-  width: 300px;
   color: white;
   margin-top: 20px;
   position: relative;
   touch-action: none;
 
 }
+.z-index {
+  z-index: 600;
+}
+.color-picker-abs {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+}
 .tool-wrapper label {
   margin-right: 5px;
 }
 
-.tool-wrapper .increase-thickness-btn, .tool-wrapper .decrease-thickness-button {
-  padding: 3px 12px;
-  margin-right: 10px;
+.canvas-button {
   background: transparent;
-  border: none;
-  color: white;
+  color: var(--black);
+  font-size: 28px;
+  position: absolute;
+}
+.increase-thickness-btn {
+  position: absolute;
+  top: 1em;
+  right: 2em;
 
 }
 
+.add-canvas-btn {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  height: 68px;
+  width: 68px;
+}
+
+.decrease-thickness-btn {
+  position: absolute;
+  top: 1em;
+  right: 4em;
+  background: transparent;
+  color: var(--black);
+  font-size: 28px;
+}
+
+.canvas-draw {
+
+  position: relative;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.canvas-draw svg {
+  height: 24px;
+  width: 24px;
+}
 
 .buttonbar {
   z-index: 400;
   position: absolute;
 }
-.submit-btn  {
-  width: 100%;
-  margin-top: 10px;
+.submit-btn {
+  position: absolute;
+  bottom: 1em;
+  left: calc(50% - 24px);
+  height: 68px!important;
+  width: 68px!important;
 }
+
+.exit-drawing-btn {
+  bottom: 1em;
+  right: 1em;
+}
+
 button {
   border: white;
   background: hotpink;
@@ -71,13 +121,14 @@ button {
 }
 
 .clear-btn {
-  margin-right: 10px;
-  margin-bottom: 10px;
-  background: red;
+  position: absolute;
+  top: 1em;
+  left: 1em;
 }
 .undo-btn {
-  margin-bottom: 10px;
-  background: orange;
+  position: absolute;
+  top: 1em;
+  left: 3em;
 }
 
 .slider-picker {
@@ -185,6 +236,14 @@ button {
   touch-action: none;
 }
 
+.canvas-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 .admin-modal {
   display: flex;
   overflow: hidden;
@@ -213,7 +272,6 @@ button {
 
 .modal {
   z-index: 450;
-
   display: flex;
   overflow: hidden;
   max-height: 0;

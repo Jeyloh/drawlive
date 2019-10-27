@@ -548,6 +548,7 @@ export default class extends PureComponent {
           }
         }}
       >
+        {this.props.children}
         {canvasTypes.map(({ name, zIndex }) => {
           const isInterface = name === "interface";
           return (
