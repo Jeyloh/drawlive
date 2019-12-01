@@ -8,7 +8,18 @@
             "DeploymentBucketName": "drawlive-master-20191021212258-deployment",
             "UnauthRoleName": "drawlive-master-20191021212258-unauthRole",
             "StackName": "drawlive-master-20191021212258",
-            "StackId": "arn:aws:cloudformation:eu-central-1:254435671471:stack/drawlive-master-20191021212258/2fbbbf10-f438-11e9-81d8-0a4de0a8f3d8"
+            "StackId": "arn:aws:cloudformation:eu-central-1:254435671471:stack/drawlive-master-20191021212258/2fbbbf10-f438-11e9-81d8-0a4de0a8f3d8",
+            "AmplifyAppId": "d1cyl44ggjmpkn"
+        },
+        "categories": {
+            "auth": {
+                "drawlivefc48f45d": {}
+            },
+            "function": {
+                "drawlivefc48f45dPostConfirmation": {
+                    "GROUP": "users"
+                }
+            }
         }
     },
     "test": {

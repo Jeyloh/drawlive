@@ -1,4 +1,7 @@
-type Canvas @model {
+type Canvas @model @auth(rules: [
+      { allow: owner, ownerField: "owner" },
+    { allow: groups, groups: ["users"] }
+]) {
   id: ID!
   clientId: String!
   data: String!

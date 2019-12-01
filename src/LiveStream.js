@@ -72,7 +72,7 @@ class LiveStream extends React.Component {
                             canvasWidth={this.props.canvasQueue[this.props.index].data.width}
                         canvasHeight={this.props.canvasQueue[this.props.index].data.height}
                         lazyRadius={8}
-                        loadTimeOffset={18}
+                        loadTimeOffset={15}
                         canvasBackground={"transparent"}
                     />
                 </div>

@@ -5,11 +5,13 @@ import Canvas from "./Canvas";
 import { ReactComponent as QRSvg } from "./drawliveQR.svg";
 
 import { API, graphqlOperation } from 'aws-amplify'
+import {withAuthenticator} from "aws-amplify-react"
 import { onCreateCanvas, onDeleteCanvas } from './graphql/subscriptions'
 import { listCanvass } from './graphql/queries'
 import LiveStream from "./LiveStream";
 import AdminPage from "./AdminPage";
 import { Plus } from "./assets";
+
 
 export function clone(obj) {
   var copy;
@@ -185,4 +187,4 @@ class App extends React.Component {
   }
 }
 
-export default App
+export default withAuthenticator(App);

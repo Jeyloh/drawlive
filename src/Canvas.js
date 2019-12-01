@@ -98,7 +98,7 @@ class Canvas extends Component {
         this.id = uuid();
         this.clientId = uuid();
       })
-      .catch(err => console.log('error creating: ', err))
+      .catch(err => alert('error: ', err))
   }
 
   increaseThickness = () => {
