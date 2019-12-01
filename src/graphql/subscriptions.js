@@ -6,6 +6,7 @@ export const onCreateCanvas = `subscription OnCreateCanvas($owner: String) {
     id
     clientId
     data
+    background
   }
 }
 `;
@@ -14,6 +15,7 @@ export const onUpdateCanvas = `subscription OnUpdateCanvas($owner: String) {
     id
     clientId
     data
+    background
   }
 }
 `;
@@ -22,6 +24,7 @@ export const onDeleteCanvas = `subscription OnDeleteCanvas($owner: String) {
     id
     clientId
     data
+    background
   }
 }
 `;

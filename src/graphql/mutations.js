@@ -6,6 +6,7 @@ export const createCanvas = `mutation CreateCanvas($input: CreateCanvasInput!) {
     id
     clientId
     data
+    background
   }
 }
 `;
@@ -14,6 +15,7 @@ export const updateCanvas = `mutation UpdateCanvas($input: UpdateCanvasInput!) {
     id
     clientId
     data
+    background
   }
 }
 `;
@@ -22,6 +24,7 @@ export const deleteCanvas = `mutation DeleteCanvas($input: DeleteCanvasInput!) {
     id
     clientId
     data
+    background
   }
 }
 `;

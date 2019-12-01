@@ -6,6 +6,7 @@ export const getCanvas = `query GetCanvas($id: ID!) {
     id
     clientId
     data
+    background
   }
 }
 `;
@@ -19,6 +20,7 @@ export const listCanvass = `query ListCanvass(
       id
       clientId
       data
+      background
     }
     nextToken
   }
